@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model Role {
+  id              Int       @id               @default(autoincrement())
+  name            String    @unique
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @default(now())   @updatedAt
+
+  // One-to-Many
+  role_permission  Role_Permission[]
+  // One-to-Many
+  user            User[]
+}
+
+
+model Permission {
+  id            Int       @id               @default(autoincrement())
+  name          String    @unique
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @default(now())   @updatedAt
+
+  // One-to-Many
+  role_permission  Role_Permission[]
+}
+
+
+model Role_Permission {
+
+  // role_id -> FK มาจาก Role
+  role_id       Int
+  role          Role        @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  
+  // permission_id -> FK มาจาก Permission
+  permission_id Int
+  permission    Permission  @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @default(now())   @updatedAt
+
+  // primary key ร้วมกัน
+  @@id([role_id, permission_id])
+}
+
+
+model User {
+  id            Int         @id               @default(autoincrement())
+  name          String
+  email         String      @unique
+  password      String      
+  phone_number  String?     @unique
+  image         Bytes?      // BLOB
+  status        Boolean     @default(true)
+  last_login    DateTime?
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @default(now())   @updatedAt
+
+  // created_by -> FK มาจาก User
+  created_by    Int?
+  createdBy     User?       @relation(name: "CreatedByUsers", fields: [created_by], references: [id], onDelete: SetNull)
+  createdUsers  User[]      @relation(name: "CreatedByUsers")
+  // กำหนด self-relation
+
+  // updated_by -> FK มาจาก User
+  updated_by    Int?
+  updatedBy     User?       @relation(name: "UpdatedByUser" ,fields: [updated_by], references: [id], onDelete: SetNull)
+  updatedUsers  User[]      @relation(name: "UpdatedByUser")
+  // กำหนด self-relation
+
+  // role_id -> FK มาจาก Role
+  role_id       Int?
+  role          Role?       @relation(fields: [role_id], references: [id], onDelete: SetNull)
+
+  // One-to-One
+  user_token    User_Token?
+}
+
+
+model User_Token {
+  id          Int         @id       @default(autoincrement())
+  token       String      @unique
+  expired_at  DateTime
+  created_at  DateTime    @default(now())
+
+  // user_id -> FK มาจาก User
+  user_id     Int         @unique
+  user        User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+
+
