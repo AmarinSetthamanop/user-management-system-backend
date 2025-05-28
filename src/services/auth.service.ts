@@ -82,7 +82,7 @@ export async function service_login(email: string, password: string) {
             created_by: user.created_by,
             updated_by: user.updated_by,
             role_name: user.role?.name,
-            permission: user.role?.role_permission.map((i) => i.permission.name) || []
+            permission: user.role?.role_permission.map((i: any) => i.permission.name) || []
         } : null
     };
 
