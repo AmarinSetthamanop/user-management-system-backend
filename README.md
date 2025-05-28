@@ -1,5 +1,7 @@
 # user-management-system-backend
 
+## How to Use
+
 A backend testing project for Global Wireless.
 
 This project is an experimental implementation of various tools for managing user data — including inserting, selecting, updating, and deleting — all within a local development environment.
@@ -9,8 +11,6 @@ Since this is a test project, all source code is open and not obfuscated or encr
 This backend works in conjunction with the frontend available at: https://github.com/AmarinSetthamanop/user-management-system-frontend.git
 
 ---
-
-## How to Use
 
 ### 1. Clone this repository to your local machine
 
@@ -33,14 +33,14 @@ npm run dev
 
 
 
+##  วิธีการใช้งาน
+
 โปรเจกต์นี้เป็นการทดลองการใช้งานเครื่องมือต่าง ๆ สำหรับการจัดการข้อมูล เช่นการ insert, select, update และ delete ภายในเครื่อง (Local Development)
 
 เนื่องจากเป็นโปรเจกต์ทดลอง โค้ดทั้งหมดจะไม่มีการปกปิดข้อมูล (no obfuscation) และไม่มีการเข้ารหัส (no encryption)
 Project นี้ใช้งานร่วมกับ Frontend โดยติดตั้งจาก https://github.com/AmarinSetthamanop/user-management-system-frontend.git
 
 ---
-
-##  วิธีการใช้งาน
 
 ### 1. Clone โปรเจกต์ลงในเครื่องของคุณ
 
