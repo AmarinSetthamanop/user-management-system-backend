@@ -56,4 +56,4 @@ ACCESS_TOKEN_SECRET="t@h+i$s-i9s-a&c%c!e%s฿s-s$e*c+r!e$t-k&e^y-f<o>r-U?s!e$r%-
 ### 3. ติดตั้ง dependencies และเริ่มต้นเซิร์ฟเวอร์
 
 npm install
-npm run dev
+npm start
