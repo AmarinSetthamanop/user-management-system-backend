@@ -11,22 +11,28 @@ const prisma = new PrismaClient();
 //======================================================== service การ login เข้าสู่ระบบ
 export async function service_login(email: string, password: string) {
 
-    // ตรวจสอบข้อมูล user ด้วย email
-    let check_user = await prisma.user.findUnique({
-        where: { email },
-        select: { id: true ,email: true, password: true }
-    });
-
     // ข้อมูลที่จะส่งกลับไป
     let data : ResultModel = {
         status: false,
         message: '',
         result: null
     };
+
+    // ถ้ากรอกข้อมูลมาไม่ครบ
+    if (!email.trim() || !password.trim()) {
+        data.message = 'กรอกข้อมูลไม่ครบ email | password';
+        return data;
+    }  
+
+    // ตรวจสอบข้อมูล user ด้วย email
+    let check_user = await prisma.user.findUnique({
+        where: { email },
+        select: { id: true ,email: true, password: true }
+    });
     
     // ถ้าไม่พบข้อมูล user
     if ( !check_user ) {
-        data.message = 'Email นี้ไม่ถูกต้อง หรือยังสมัครใช้งานกับระบบ';
+        data.message = 'Email นี้ไม่ถูกต้อง หรือยังไม่สมัครใช้งานกับระบบ';
         return data;
     }
 

@@ -16,15 +16,15 @@ export const login = async (req: Request, res: Response) => {
 
     // ถ้า login ไม่สำเร็จ
     if ( !( ('status' in result) ? result.status : result.data.status ) ) {
-        res.status(422).json(result);
+        res.status(200).json(result);
     }
     // ถ้า login สำเร็จ
     else {
         res
             // บันทึก cookie ให้กับ client ในชื่อ accessToken
             .cookie('accessToken', ('accessToken' in result ? result.accessToken : null), {
-                httpOnly: true, // ป้องกัน XSS (ไม่ให้ JavaScript เข้าถึง cookie นี้)
-                secure: true,   // ใช้เฉพาะบน HTTPS
+                httpOnly: false, // ป้องกัน XSS (ไม่ให้ JavaScript เข้าถึง cookie นี้)
+                secure: false,   // ใช้เฉพาะบน HTTPS
                 sameSite: 'strict', // ป้องกัน CSRF
                 maxAge: 2 * 24 * 60 * 60 * 1000, // อายุ 2 วัน
                 path: '/',   // Cookie จะถูกใช้งานได้ทุก endpoints
@@ -50,7 +50,7 @@ export const logout = async (req: Request, res: Response) => {
 
     // ถ้ายังไม่ login
     if ( !(result.status) ) {
-        res.status(422).json(result);
+        res.status(200).json(result);
     }
     // ออกจากระบบได้
     else {

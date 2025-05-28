@@ -11,11 +11,5 @@ export const get_role = async (req: Request, res: Response) => {
     // เรียกใช้ service add_user เพื่อบันทึกข้อมูล
     const result = await service_get_role( accessToken );
 
-    // ถ้า add_user ไม่สำเร็จ
-    if ( !(result.status) ) {
-        res.status(422).send(result);
-    }
-    else {
-        res.status(200).send(result);
-    }
+    res.status(200).send(result);
 };

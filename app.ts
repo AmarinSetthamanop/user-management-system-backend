@@ -13,7 +13,10 @@ const app = express();
 //********************************** CORS API ******************************/
 // CORS คือ เมื่อเรานำ project fount-end และ back-end ขึ้นสู่ระบบ hosting ภายนอก แล้วเราต้องการให้ fount-end สามารถเรียก back-end ได้นั้น จึงต้องทำ cors
 app.use(cors({
-    origin: "*",
+    origin: [
+        "*",
+        "http://localhost:3000",
+    ],
     credentials: true // รับ cookie จาก client
 }));
 

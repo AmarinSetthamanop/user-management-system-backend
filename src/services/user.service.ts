@@ -16,6 +16,12 @@ export async function service_register(name: string, email: string, password: st
         message: '',
         result: null
     };
+    
+    // ถ้ากรอกข้อมูลมาไม่ครบ
+    if (!name.trim() || !email.trim() || !password.trim()) {
+        data.message = 'กรอกข้อมูลไม่ครบ name | email | password';
+        return data;
+    }   
 
     // ตรวจสอบว่า email นี้ถูกสมัครไว้แล้วหรือยัง
     const check_mail = await prisma.user.findUnique({
@@ -71,6 +77,17 @@ export async function service_add_user(
         message: '',
         result: null
     };
+
+    // ถ้ากรอกข้อมูลมาไม่ครบ
+    if (
+        !name.trim() ||
+        !email.trim() ||
+        !password.trim() ||
+        !role_id
+    ) {
+        data.message = 'กรอกข้อมูลไม่ครบ name | email | password | status | role_id';
+        return data;
+    }  
 
     try {
     
@@ -325,6 +342,17 @@ export async function service_edit_user(
         result: null
     };
 
+    // ถ้ากรอกข้อมูลมาไม่ครบ
+    if (
+        !id ||
+        !name.trim() ||
+        !email.trim() ||
+        !role_id
+    ) {
+        data.message = 'กรอกข้อมูลไม่ครบ id | name | email | status | role_id';
+        return data;
+    }  
+
     try {
     
         // แปลง token ของ client เป็น object ( {user_id : ...} )
@@ -466,6 +494,12 @@ export async function service_delete_user( id: number, token: string ) {
         result: null
     };
 
+    // ถ้ากรอกข้อมูลมาไม่ครบ
+    if ( !id ) {
+        data.message = 'กรอกข้อมูลไม่ครบ | id';
+        return data;
+    }  
+
     try {
     
         // แปลง token ของ client เป็น object ( {user_id : ...} )
@@ -550,6 +584,16 @@ export async function service_edit_me(
         message: '',
         result: null
     };
+
+    // ถ้ากรอกข้อมูลมาไม่ครบ
+    if (
+        !id ||
+        !name.trim() ||
+        !email.trim()
+    ) {
+        data.message = 'กรอกข้อมูลไม่ครบ id | name | email';
+        return data;
+    }  
 
     try {
     
@@ -646,4 +690,47 @@ export async function service_edit_me(
         data.message = 'คุณยังไม่ได้เข้าสู่ระบบ';
         return data;
     }
+}
+
+
+
+
+//======================================================== service แก้ไขข้อมูล profile ตัวเอง (ตรวจดู cookie ของผู้ request และ id ของ profile ที่จะแก้ไขว่าตรงกันหรือไม่)
+export async function service_reset_password( email: string, password: string ) {
+
+    // ข้อมูลทีจะสงกลับไป
+    let data : ResultModel = {
+        status: false,
+        message: '',
+        result: null
+    };
+
+    // ถ้ากรอกข้อมูลมาไม่ครบ
+    if ( !email.trim() || !password.trim() ) {
+        data.message = 'กรอกข้อมูลไม่ครบ  email | password';
+        return data;
+    }  
+
+    // ตรวจสอบว่ามี email นี้หรือไม่
+    const check_mail = await prisma.user.findUnique({
+        where: { email: email },
+        select: { email: true }
+    });
+    
+    // ถ้าไม่มี email นี้ใน database
+    if ( !check_mail ) {
+        data.message = 'ไม่พบ Email ในระบบ';
+        return data;
+    }
+
+    // แก้ไข password
+    await prisma.user.update({
+        where: { email: email },
+        data: { password: await hashPassword(password) }
+    });
+
+
+    data.status = true;
+    data.message = 'แก้ไข Password เสร็จสิ้น';
+    return data;
 }

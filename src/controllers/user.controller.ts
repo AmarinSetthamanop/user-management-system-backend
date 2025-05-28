@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { service_add_user, service_delete_user, service_edit_me, service_edit_user, service_get_user, service_get_users, service_register } from '../services/user.service';
+import { service_add_user, service_delete_user, service_edit_me, service_edit_user, service_get_user, service_get_users, service_register, service_reset_password } from '../services/user.service';
 
 
 // endpoint สำหรับ รับ request register จาก client
@@ -15,13 +15,7 @@ export const register = async (req: Request, res: Response) => {
     // เรียกใช้ service register เพื่อบันทึกข้อมูล
     const result = await service_register(body.name, body.email, body.password);
 
-    // ถ้า register ไม่สำเร็จ
-    if ( !(result.status) ) {
-        res.status(422).send(result);
-    }
-    else {
-        res.status(200).send(result);
-    }
+    res.status(200).send(result);
 
 };
 
@@ -56,13 +50,7 @@ export const add_user = async (req: Request, res: Response) => {
         accessToken
     );
 
-    // ถ้า add_user ไม่สำเร็จ
-    if ( !(result.status) ) {
-        res.status(422).send(result);
-    }
-    else {
-        res.status(200).send(result);
-    }
+    res.status(200).send(result);
 };
 
 
@@ -88,13 +76,7 @@ export const get_users = async (req: Request, res: Response) => {
         accessToken
     );
 
-    // ถ้า get_users ไม่สำเร็จ
-    if ( !(result.status) ) {
-        res.status(422).send(result);
-    }
-    else {
-        res.status(200).send(result);
-    }
+    res.status(200).send(result);
 };
 
 
@@ -114,13 +96,7 @@ export const get_user = async (req: Request, res: Response) => {
     // เรียกใช้ service get_user เพื่อดึงข้อมูล user ตาม id
     const result = await service_get_user(params.user_id, accessToken);
 
-    // ถ้า get_user ไม่สำเร็จ
-    if ( !(result.status) ) {
-        res.status(422).send(result);
-    }
-    else {
-        res.status(200).send(result);
-    }
+    res.status(200).send(result);
 
 };
 
@@ -158,13 +134,7 @@ export const edit_user = async (req: Request, res: Response) => {
         accessToken
     );
 
-    // ถ้า edit_user ไม่สำเร็จ
-    if ( !(result.status) ) {
-        res.status(422).send(result);
-    }
-    else {
-        res.status(200).send(result);
-    }
+    res.status(200).send(result);
 
 };
 
@@ -184,13 +154,7 @@ export const delete_user = async (req: Request, res: Response) => {
     // เรียกใช้ service get_user เพื่อดึงข้อมูล user ตาม id
     const result = await service_delete_user(params.user_id, accessToken);
 
-    // ถ้า delete_user ไม่สำเร็จ
-    if ( !(result.status) ) {
-        res.status(422).send(result);
-    }
-    else {
-        res.status(200).send(result);
-    }
+    res.status(200).send(result);
 
 };
 
@@ -223,12 +187,22 @@ export const edit_me = async (req: Request, res: Response) => {
         accessToken
     );
 
-    // ถ้า edit_me ไม่สำเร็จ
-    if ( !(result.status) ) {
-        res.status(422).send(result);
-    }
-    else {
-        res.status(200).send(result);
-    }
+    res.status(200).send(result);
 
+}
+
+
+
+// endpoint สำหรับ รับ request edit_me จาก client
+export const reset_password = async (req: Request, res: Response) => {
+    // ดึงของมูลจาก body
+    const body = {
+        email: req.body.email,
+        password: req.body.password,
+    };
+
+    // เรียกใช้ service แก้ไข password
+    const result = await service_reset_password( body.email, body.password );
+
+    res.status(200).send(result);
 }

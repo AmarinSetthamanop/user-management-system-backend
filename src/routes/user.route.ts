@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { add_user, delete_user, edit_me, edit_user, get_user, get_users, register } from "../controllers/user.controller";
+import { add_user, delete_user, edit_me, edit_user, get_user, get_users, register, reset_password } from "../controllers/user.controller";
 
 // export ให้ router สามารถไปใช้งานในไฟล์อื่นได้
 // สร้าง object ของ Router ที่อยู่ใน expresss
@@ -26,6 +26,9 @@ router.delete('/delete_user', delete_user);
 
 // enpoint สำหรับแก้ไขข้อมูล profile ตัวเอง
 router.put('/edit_me', edit_me);
+
+// enpoint สำหรับ reset password
+router.put('/reset_password', reset_password);
 
 // ส่งอกกตัวแปล router ให้ใช้งานร่วมกันใน main
 export default router;
