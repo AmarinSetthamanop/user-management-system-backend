@@ -14,20 +14,22 @@ This backend works in conjunction with the frontend available at: https://github
 
 ### 1. Clone this repository to your local machine
 
----bash
+```bash
 git clone https://github.com/AmarinSetthamanop/user-management-system-backend.git
 cd user-management-system-backend
+```
 
 ### 2. Create a .env file and add the following environment variables
-
+```bash
 DATABASE_URL="file:./db/database.db"
 ACCESS_TOKEN_SECRET="t@h+i$s-i9s-a&c%c!e%s฿s-s$e*c+r!e$t-k&e^y-f<o>r-U?s!e$r%-M^a&n*a@g@e?m>e<n&t-S$y%s!t@e$m"
+```
 
 ### 3. Install dependencies and start the development server
-
+```bash
 npm install
 npm run dev
-
+```
 
 
 
@@ -44,16 +46,19 @@ Project นี้ใช้งานร่วมกับ Frontend โดยต�
 
 ### 1. Clone โปรเจกต์ลงในเครื่องของคุณ
 
----bash
+```bash
 git clone https://github.com/AmarinSetthamanop/user-management-system-backend.git
 cd user-management-system-backend
+```
 
 ### 2. สร้างไฟล์ .env และเพิ่มค่าต่อไปนี้
-
+```bash
 DATABASE_URL="file:./db/database.db"
 ACCESS_TOKEN_SECRET="t@h+i$s-i9s-a&c%c!e%s฿s-s$e*c+r!e$t-k&e^y-f<o>r-U?s!e$r%-M^a&n*a@g@e?m>e<n&t-S$y%s!t@e$m"
+```
 
 ### 3. ติดตั้ง dependencies และเริ่มต้นเซิร์ฟเวอร์
-
+```bash
 npm install
 npm start
+```
